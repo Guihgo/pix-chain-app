@@ -1,27 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Web3Helper from './web3';
+import WalletHelper from './web3';
 
 function App() {
 
-  const web3Helper = new Web3Helper("any_private_key")
+  const [walletHelper, setWalletHelper] = useState<WalletHelper>();
+  const [privateKey, setPrivateKey] = useState("")
+
+  const loadWallet = () => {
+    if (!walletHelper) { /* load wallet */
+      try {
+        setWalletHelper(new WalletHelper(privateKey))
+        console.log("Wallet loaded with success!")
+      } catch (e) {
+        console.error("Invalid private key")
+      }
+    } else { /* unload wallet */
+      setPrivateKey("")
+      setWalletHelper(undefined)
+    }
+
+  }
+
+  function handleChangePrivateKeyInput(e: any) {
+    setPrivateKey(e.target.value)
+  }
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload!
+          Pix Chain APP
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+
+        {(walletHelper) ?
+          <div>
+            <p>
+              Your address is: <a target="_blank" href={walletHelper.getExplorerAddressLink(walletHelper.getAddress())} rel="noreferrer"><code>{walletHelper.shortAddress(walletHelper.getAddress())}</code></a>
+            </p>
+            <button onClick={loadWallet}>Disconnect</button>
+          </div>
+          :
+          <div>
+            <input placeholder='Paste your private key' type={'password'} onChange={handleChangePrivateKeyInput} />
+            <button onClick={loadWallet}>Connect</button>
+          </div>}
       </header>
     </div>
   );
