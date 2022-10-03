@@ -1,28 +1,29 @@
 import React from "react";
-import { Container, Text, ReceiveButton, ReceivedButton, PayButton, DisconnectButton, ConfirmButton, ContinueButton, PrivateKey } from "./styles";
+import { Container, Header, Title, TitleH2, TitleH3, Text, TextYellow, PXCArea, ReceiveButton, ReceivedButton, PayButton, DisconnectButton, ConfirmButton, ContinueButton, PrivateKey } from "./styles";
 
 export function TestColor() {
   return (
     <div>
-    <ReceiveButton>
-      <Text>Receber</Text>
-    </ReceiveButton>
-    <ReceivedButton>
-      <Text>Receber</Text>
-    </ReceivedButton>
-    <PayButton>
-      <Text>Pagar</Text>
-    </PayButton>
-    <DisconnectButton>
-      <Text>Desconectar</Text>
-    </DisconnectButton>
-    <ConfirmButton>
-      <Text>Confirmar</Text>
-    </ConfirmButton>
-    <ContinueButton>
-      <Text>Continuar</Text>
-    </ContinueButton>
-    <PrivateKey placeholder="Chave privada" />
+    <Container>
+      <Header>
+        <Title>
+          PixChain
+        </Title>
+      </Header>
+      <Text>
+        Insira sua chave privada para acessar sua carteira
+      </Text>
+      <div>
+        <PrivateKey placeholder="Chave privada" />
+        <ConfirmButton>
+          <Text>Confirmar</Text>
+        </ConfirmButton>
+      </div>
+      <PXCArea>
+        <TextYellow>Carteira A</TextYellow>
+        <TitleH3>PXC 100,00</TitleH3>
+      </PXCArea>
+    </Container>
     </div>
   );
 }
