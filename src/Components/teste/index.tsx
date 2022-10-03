@@ -1,10 +1,28 @@
 import React from "react";
-import { Container, Text } from "./styles";
+import { Container, Text, ReceiveButton, ReceivedButton, PayButton, DisconnectButton, ConfirmButton, ContinueButton, PrivateKey } from "./styles";
 
 export function TestColor() {
   return (
-    <Container>
-      <Text>Teste</Text>
-    </Container>
+    <div>
+    <ReceiveButton>
+      <Text>Receber</Text>
+    </ReceiveButton>
+    <ReceivedButton>
+      <Text>Receber</Text>
+    </ReceivedButton>
+    <PayButton>
+      <Text>Pagar</Text>
+    </PayButton>
+    <DisconnectButton>
+      <Text>Desconectar</Text>
+    </DisconnectButton>
+    <ConfirmButton>
+      <Text>Confirmar</Text>
+    </ConfirmButton>
+    <ContinueButton>
+      <Text>Continuar</Text>
+    </ContinueButton>
+    <PrivateKey placeholder="Chave privada" />
+    </div>
   );
 }
