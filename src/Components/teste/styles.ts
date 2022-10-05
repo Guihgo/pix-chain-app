@@ -10,7 +10,7 @@ export const Title = styled.h1`
   margin: 0;
   padding: 0;
   font-size: 1.25rem;
-  font-family: ${({ theme }) => theme.fonts.bold};
+  font-family: ${({ theme }) => theme.fontFamily};
   color: ${({ theme }) => theme.colors.dark};
   text-align: center;
 `;
@@ -19,7 +19,7 @@ export const TitleH2 = styled.h2`
   margin: 0;
   padding: 0;
   font-size: 1.5rem;
-  font-family: ${({ theme }) => theme.fonts.bold};
+  font-family: ${({ theme }) => theme.fontFamily};
   color: ${({ theme }) => theme.colors.yellow};
 `;
 
@@ -27,7 +27,7 @@ export const TitleH3 = styled.h3`
   margin: 0;
   padding: 0;
   font-size: 1.5rem;
-  font-family: ${({ theme }) => theme.fonts.bold};
+  font-family: ${({ theme }) => theme.fontFamily};
   color: ${({ theme }) => theme.colors.white};
 `;
 
@@ -35,7 +35,7 @@ export const Text = styled.p`
   margin: 0;
   padding: 0;
   font-size: 1rem;
-  font-family: ${({ theme }) => theme.fonts.regular};
+  font-family: ${({ theme }) => theme.fontFamily};
 `;
 
 export const TextYellow = styled(Text)`
@@ -57,7 +57,7 @@ export const PXCArea = styled.section`
   margin: auto;
   padding: 0;
   background-color: ${({ theme }) => theme.colors.dark};
-`
+`;
 
 export const Button = styled.button`
   width: 7.6rem;
@@ -75,26 +75,26 @@ export const ReceiveButton = styled(Button)`
 export const ReceivedButton = styled(Button)`
   color: ${({ theme }) => theme.colors.white};
   background-color: ${({ theme }) => theme.colors.green};
-`
+`;
 
 export const PayButton = styled(Button)`
   color: ${({ theme }) => theme.colors.yellow};
   background-color: ${({ theme }) => theme.colors.gray2};
-`
+`;
 
 export const DisconnectButton = styled(Button)`
   color: ${({ theme }) => theme.colors.white};
   background-color: ${({ theme }) => theme.colors.red};
-`
+`;
 
 export const ConfirmButton = styled(Button)`
   color: ${({ theme }) => theme.colors.white};
   background-color: ${({ theme }) => theme.colors.yellow};
-`
+`;
 export const ContinueButton = styled(Button)`
   color: ${({ theme }) => theme.colors.white};
   background-color: ${({ theme }) => theme.colors.green};
-`
+`;
 
 export const PrivateKey = styled.input`
   width: 12.7rem;

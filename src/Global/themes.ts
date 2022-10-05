@@ -8,9 +8,10 @@ export default {
     gray2: "#F1F1F1",
     white: "#ffffff",
   },
-  fonts: {
-    regular: "Inter_400Regular",
-    medium: "Inter_500Medium",
-    bold: "Inter_700Bold",
+  fontFamily: "inter, sans-serif",
+  fontWeight: {
+    regular: "400",
+    medium: "500",
+    bold: "700",
   },
 };
