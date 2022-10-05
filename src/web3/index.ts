@@ -2,6 +2,7 @@ import { EthereumCode } from "emvqrcode-tools"
 
 import Web3 from "web3"
 import { Account } from "web3-core"
+
 export default class WalletHelper {
 
     public explorerUrl = new URL("https://testnet.bscscan.com/")
@@ -30,8 +31,15 @@ export default class WalletHelper {
         return `${this.explorerUrl.origin}/address/${address}`
     }
 
-    static getBalance(erc20Contract?: string) {
+    async getBalance(erc20ContractAddress?: string) : Promise<string> {
+        if (!erc20ContractAddress) {
+            const balance = await this.web3.eth.getBalance(this.getAddress())
+            console.log(balance)
+            return balance
+        }
 
+        throw new Error("getBalance of erc20ContractAddress not implemmented yet")
     }
+
 
 }
