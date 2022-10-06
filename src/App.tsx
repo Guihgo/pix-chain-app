@@ -9,6 +9,7 @@ import MobileContainer from "./Components/MobileContainer";
 import Header from "./Components/Header";
 import Home from "./Screens/Home";
 import Router from "./routes";
+import { ECurrencySymbol } from "./web3/types";
 
 <link
   href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
@@ -19,7 +20,7 @@ function App() {
   const [walletHelper, setWalletHelper] = useState<WalletHelper>();
   const [privateKey, setPrivateKey] = useState("80d0aeaa9c8bc52c4b9913fdcad425adb5941b9b543fea8f523e66e1b841972a");
 
-  const loadWallet = () => {
+  const loadWallet = async () => {
     /* load wallet */
     try {
       console.log("Opening wallet using PrivateKey: ", privateKey);
@@ -40,8 +41,23 @@ function App() {
   }
 
   useEffect(() => {
-    console.log("Opening wallet using PrivateKey: ", privateKey);
-    // loadWallet()
+    if (!walletHelper) {
+      loadWallet()
+    } else {
+      /* Get Address */
+      console.log("Address: ", walletHelper.getAddress(), walletHelper.shortAddress())
+
+      /* GetBalance: Coinbase (BNB (bsc-mainnet) | ETH (eth-mainnet) | TBNB (bsc-testnet) ) */
+      walletHelper!.getBalance().then((balance) => {
+        console.log(`Balance: ${balance.amount} ${balance.symbol}`)
+      })
+
+      /* GetBalance Token (USDT | SHIB | PixCoin) */
+      walletHelper!.getBalance(ECurrencySymbol.PIX_COIN).then((balance) => {
+        console.log(`Balance: ${balance.amount} ${balance.symbol}`)
+      })
+
+    }
   })
 
   return (
