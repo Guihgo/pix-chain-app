@@ -77,7 +77,8 @@ export interface INetwork {
     providerHost: string,
     coinbaseSymbol: ICurrency,
     explorerUrl: URL,
-    chainID: number
+    chainID: number,
+    defaultGas: string
 }
 export type TNetwork = {
     [networkNameID in keyof typeof ENetworkNameEnviroment]: INetwork
@@ -89,14 +90,16 @@ export const NETWORKS: TNetwork = {
         providerHost: "https://bsc-dataseed.binance.org/",
         coinbaseSymbol: CURRENCY.BNB,
         chainID: 56,
-        explorerUrl: new URL("https://bscscan.com/")
+        explorerUrl: new URL("https://bscscan.com/"),
+        defaultGas: "21000"
     },
     BSC_TESTNET: {
         nameEnviroment: ENetworkNameEnviroment.BSC_TESTNET,
         providerHost: "https://data-seed-prebsc-1-s3.binance.org:8545",
         coinbaseSymbol: CURRENCY.TBNB,
         chainID: 97,
-        explorerUrl: new URL("https://testnet.bscscan.com/")
+        explorerUrl: new URL("https://testnet.bscscan.com/"),
+        defaultGas: "21000"
     }
 }
 

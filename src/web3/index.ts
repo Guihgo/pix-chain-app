@@ -1,9 +1,10 @@
-import { EthereumCode } from "emvqrcode-tools"
+import { EthereumCode, IEthereumCodeParams } from "emvqrcode-tools"
 
 import Web3 from "web3"
 import { Account } from "web3-core"
-import { Contract } from "web3-eth-contract"
-import { CURRENCY, ECurrencySymbol, INetwork, NETWORKS } from "./types"
+import { toWei, toBN } from "web3-utils"
+import BN from "bn.js"
+import { CURRENCY, ECurrencySymbol, EUnitsETH, ICurrency, INetwork, NETWORKS } from "./types"
 import { shortLongString } from "./utils"
 
 interface IBalance { amount: string, symbol: ECurrencySymbol }
@@ -35,6 +36,15 @@ export default class WalletHelper {
         return `${this.network.explorerUrl.origin}/address/${address}`
     }
 
+    getCurrencyKeyByValue(currencySymbol?: ECurrencySymbol) : ICurrency{
+        const keyCurrencySymbol = Object.keys(ECurrencySymbol).find((key) => (ECurrencySymbol[key as keyof typeof ECurrencySymbol] === currencySymbol)) as keyof typeof ECurrencySymbol
+        return CURRENCY[keyCurrencySymbol]
+    }
+
+    async getGasPrice(speedUp = "5") : Promise<BN> {
+        return toBN(await this.web3.eth.getGasPrice().catch(e => toWei("10", EUnitsETH.Gwei))).add(toBN(toWei(speedUp, EUnitsETH.Gwei)))
+    }
+
     async getBalance(currencySymbol?: ECurrencySymbol): Promise<IBalance> {
         if (!currencySymbol || this.network.coinbaseSymbol.symbol === currencySymbol) {
             const balance = await this.web3.eth.getBalance(this.getAddress())
@@ -46,8 +56,7 @@ export default class WalletHelper {
         }
 
         /* Get erc20 token balance */
-        const keyCurrencySymbol = Object.keys(ECurrencySymbol).find((key) => (ECurrencySymbol[key as keyof typeof ECurrencySymbol] === currencySymbol)) as keyof typeof ECurrencySymbol
-        const currency = CURRENCY[keyCurrencySymbol]
+        const currency = this.getCurrencyKeyByValue(currencySymbol) 
         if (!currency.token) throw new Error(`${currency.symbol} isnt an token or coinbase of ${this.network.nameEnviroment} network.`)
 
         const erc20Contract = new this.web3.eth.Contract(currency.token.abi, currency.token.address)
@@ -58,6 +67,46 @@ export default class WalletHelper {
             symbol: currency.symbol
         }
     }
+
+    async createInvoice(fromAddress: string, amount: string, currencySymbol?: ECurrencySymbol) : Promise<string> {
+
+        if (!currencySymbol) currencySymbol = this.network.coinbaseSymbol.symbol
+        const currency = this.getCurrencyKeyByValue(currencySymbol) 
+        
+        amount = amount.replaceAll(",", ".")
+
+        let data = ""
+        let value = toWei(amount, currency.decimalsUnit)
+        if(currency.token) {
+            const erc20Contract = new this.web3.eth.Contract(currency.token.abi, currency.token.address)
+            data = erc20Contract.methods.transfer(this.getAddress(), value).encodeABI()
+            value = "0";
+        }
+
+        const transactionConfig: IEthereumCodeParams["transactionConfig"] = {
+            nonce: await this.web3.eth.getTransactionCount(fromAddress, "pending") || 0,
+            from: fromAddress,
+            to: this.getAddress(),
+            value,
+            gasPrice: await this.getGasPrice(),
+            data
+        }
+
+        const estimateGas = await this.web3.eth.estimateGas(transactionConfig)
+        transactionConfig.gas = estimateGas
+        transactionConfig.chainId = this.network.chainID
+
+        const ethereumCode = new EthereumCode({
+            transactionConfig,
+            provider: {
+                host: this.network.providerHost
+            }
+        })
+
+        return ethereumCode.get();
+    }
+
+
 
 
 }

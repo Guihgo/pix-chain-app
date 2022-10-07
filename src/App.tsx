@@ -10,6 +10,7 @@ import Header from "./Components/Header";
 import Home from "./Screens/Home";
 import Router from "./routes";
 import { ECurrencySymbol } from "./web3/types";
+import { EthereumCode } from "emvqrcode-tools";
 
 <link
   href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
@@ -47,16 +48,25 @@ function App() {
       /* Get Address */
       console.log("Address: ", walletHelper.getAddress(), walletHelper.shortAddress())
 
-      /* GetBalance: Coinbase (BNB (bsc-mainnet) | ETH (eth-mainnet) | TBNB (bsc-testnet) ) */
-      walletHelper!.getBalance().then((balance) => {
-        console.log(`Balance: ${balance.amount} ${balance.symbol}`)
+      /* Get Balance: Coinbase (BNB (bsc-mainnet) | ETH (eth-mainnet) | TBNB (bsc-testnet) ) */
+      // walletHelper!.getBalance().then((balance) => {
+      //   console.log(`Balance: ${balance.amount} ${balance.symbol}`)
+      // })
+
+      /* Get Balance: Token (USDT | SHIB | PixCoin) */
+      // walletHelper!.getBalance(ECurrencySymbol.PIX_COIN).then((balance) => {
+      //   console.log(`Balance: ${balance.amount} ${balance.symbol}`)
+      // })
+
+      /* Create Invoice: Coinbase */
+      walletHelper!.createInvoice("0xc7BE55e895Ee523EA67Ac52cDd55f927BCF6B754", "0.01").then(ethCode=>{
+        console.log(`Ethreum Transaction Code: `, ethCode, EthereumCode.parse(ethCode))
       })
 
-      /* GetBalance Token (USDT | SHIB | PixCoin) */
-      walletHelper!.getBalance(ECurrencySymbol.PIX_COIN).then((balance) => {
-        console.log(`Balance: ${balance.amount} ${balance.symbol}`)
+      /* Create Invoice: Token */
+      walletHelper!.createInvoice("0xc7BE55e895Ee523EA67Ac52cDd55f927BCF6B754", "5.17", ECurrencySymbol.PIX_COIN).then(ethCode=>{
+        console.log(`Ethreum Transaction Code: `, ethCode, EthereumCode.parse(ethCode))
       })
-
     }
   })
 
