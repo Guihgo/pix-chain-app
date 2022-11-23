@@ -19,7 +19,7 @@ function QRCodeReader({ data, setData }: Props) {
             console.info(error);
           }
         }}
-        constraints={{ facingMode: "user" }}
+        constraints={{ facingMode: "environment" }}
         videoContainerStyle={{ width: "100%" }}
       />
       <p>{data}</p>
