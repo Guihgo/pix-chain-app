@@ -1,18 +1,16 @@
-import React from "react";
 import { Container } from "./styles";
 
 type Props = {
-  keyValue: string;
+  placeholder: string;
+  setValue: (key: string) => void;
 };
 
-function Input({ keyValue }: Props) {
-  console.log(keyValue);
+function Input({ placeholder, setValue }: Props) {
   return (
     <Container
       type="text"
-      value={keyValue ? keyValue : ""}
-      disabled={!!keyValue}
-      onChange={() => console.log("change")}
+      placeholder={placeholder}
+      onChange={(e) => setValue(e.target.value)}
     />
   );
 }

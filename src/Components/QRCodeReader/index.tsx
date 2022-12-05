@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { QrReader } from "react-qr-reader";
 
 interface Props {
@@ -6,7 +5,7 @@ interface Props {
   setData: (data: string) => void;
 }
 
-function QRCodeReader({ data, setData }: Props) {
+function QRCodeReader({ setData }: Props) {
   return (
     <>
       <QrReader
@@ -22,7 +21,6 @@ function QRCodeReader({ data, setData }: Props) {
         constraints={{ facingMode: "environment" }}
         videoContainerStyle={{ width: "100%" }}
       />
-      <p>{data}</p>
     </>
   );
 }

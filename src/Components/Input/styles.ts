@@ -8,4 +8,6 @@ export const Container = styled.input`
   box-sizing: border-box;
   border: none;
   background-color: ${({ theme }) => theme.colors.gray1};
+  outline: none;
+  text-align: center;
 `;

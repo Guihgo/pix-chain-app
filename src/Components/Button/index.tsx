@@ -1,4 +1,3 @@
-import React from "react";
 import themes from "../../Global/themes";
 import { Container, Title } from "./styles";
 
@@ -14,7 +13,7 @@ function KeyButton({ hasKey }: Props) {
         backgroundColor: hasKey ? themes.colors.red : themes.colors.yellow,
       }}
     >
-      <Title>{hasKey ? "Desconectar" : "Confirmar"}</Title>
+      <Title>Ok</Title>
     </Container>
   );
 }

@@ -9,7 +9,7 @@ function QRCode({ value }: Props) {
   return (
     <QRCodeSVG
       value={value}
-      size={128}
+      size={200}
       bgColor={"#ffffff"}
       fgColor={"#000000"}
       level={"L"}
