@@ -2,13 +2,14 @@ import themes from "../../Global/themes";
 import { Container, Title } from "./styles";
 
 type Props = {
+  onClick: () => void;
   hasKey: boolean;
 };
 
-function KeyButton({ hasKey }: Props) {
+function KeyButton({ onClick, hasKey }: Props) {
   return (
     <Container
-      onClick={() => console.log("click")}
+      onClick={onClick}
       style={{
         backgroundColor: hasKey ? themes.colors.red : themes.colors.yellow,
       }}

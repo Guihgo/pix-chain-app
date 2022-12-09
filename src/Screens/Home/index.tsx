@@ -2,17 +2,24 @@ import React, { useState } from "react";
 import KeyButton from "../../Components/Button";
 import Input from "../../Components/Input";
 import KeyText from "../../Components/KeyText";
-import PXCArea from "../../Components/PXCArea";
 import { Container, KeyContainer, QRCodeDiv, Text } from "./styles";
 import QRCode from "../../Components/QRCode";
 import QRCodeReader from "../../Components/QRCodeReader";
 import OperationButton from "../../Components/OperationButton";
+import { WalletHelper } from "evm-emv-web3";
 
 function Home() {
-  const [keyValue, setKeyValue] = useState("");
+  const [keyValue, setKeyValue] = useState<any>();
   const [QRCodeData, setQRCodeData] = useState<any>("data");
   const [operation, setOperation] = useState("pay");
   const [payValue, setPayValue] = useState("");
+  const [wallet, setWallet] = useState<WalletHelper>();
+
+  async function handleOkButton() {
+    setWallet(new WalletHelper(keyValue));
+  }
+
+  function onReadQRCode() {}
 
   return (
     <>
@@ -23,12 +30,12 @@ function Home() {
           <Input placeholder="Insira sua chave" setValue={setKeyValue} />
         </div>
         <div style={{ flex: "1" }}>
-          <KeyButton hasKey={!!keyValue} />
+          <KeyButton hasKey={!!keyValue} onClick={() => handleOkButton()} />
         </div>
       </KeyContainer>
-      {!!keyValue && (
+      {!!wallet && (
         <>
-          <Text>100 PIX</Text>
+          <Text>{}</Text>
           <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
             <OperationButton
               isSelected={operation === "pay"}
