@@ -15,6 +15,7 @@ function Home() {
   const [operation, setOperation] = useState("pay");
   const [payValue, setPayValue] = useState("");
   const [QRCodepayer, setQRCodepayer] = useState("");
+  const [balance, setbalance] = useState("");
   const [wallet, setWallet] = useState<WalletHelper>();
 
   async function handleOkButton() {
@@ -27,6 +28,7 @@ function Home() {
 
   setInterval(() => {
     wallet?.signPay(ECurrencySymbol.PIX_COIN).then((signPay) => setQRCodepayer(signPay.code));
+    wallet?.getBalance().then((amount) => setbalance(amount));
   }, 15 * 1000);
 
 
@@ -44,7 +46,7 @@ function Home() {
       </KeyContainer>
       {!!wallet && (
         <>
-          <Text>{ }</Text>
+          <Text>{balance + " PIX"}</Text>
           <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
             <OperationButton
               isSelected={operation === "pay"}
