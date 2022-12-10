@@ -6,20 +6,29 @@ import { Container, KeyContainer, QRCodeDiv, Text } from "./styles";
 import QRCode from "../../Components/QRCode";
 import QRCodeReader from "../../Components/QRCodeReader";
 import OperationButton from "../../Components/OperationButton";
-import { WalletHelper } from "evm-emv-web3";
+import { ISignPay, WalletHelper } from "evm-emv-web3";
+import { BinanceSmartChain_Testnet, ECurrencySymbol } from "evm-emv-web3/networks/BinanceSmartChain";
 
 function Home() {
   const [keyValue, setKeyValue] = useState<any>();
   const [QRCodeData, setQRCodeData] = useState<any>("data");
   const [operation, setOperation] = useState("pay");
   const [payValue, setPayValue] = useState("");
+  const [QRCodepayer, setQRCodepayer] = useState("");
   const [wallet, setWallet] = useState<WalletHelper>();
 
   async function handleOkButton() {
-    setWallet(new WalletHelper(keyValue));
+    setWallet(new WalletHelper(BinanceSmartChain_Testnet, keyValue));
   }
 
-  function onReadQRCode() {}
+  function onReadQRCode() {
+    wallet?.pay(ECurrencySymbol.PIX_COIN, QRCodeData, payValue);
+  }
+
+  setInterval(() => {
+    wallet?.signPay(ECurrencySymbol.PIX_COIN).then((signPay) => setQRCodepayer(signPay.code));
+  }, 15 * 1000);
+
 
   return (
     <>
@@ -35,7 +44,7 @@ function Home() {
       </KeyContainer>
       {!!wallet && (
         <>
-          <Text>{}</Text>
+          <Text>{ }</Text>
           <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
             <OperationButton
               isSelected={operation === "pay"}
@@ -50,7 +59,7 @@ function Home() {
           </div>
           {operation === "pay" ? (
             <QRCodeDiv style={{ marginTop: "2rem" }}>
-              <QRCode value="https://google.com" />
+              <QRCode value={QRCodepayer} />
             </QRCodeDiv>
           ) : (
             <>
@@ -60,7 +69,7 @@ function Home() {
                   setValue={setPayValue}
                 />
               </div>
-              <QRCodeReader data={QRCodeData} setData={setQRCodeData} />
+              <QRCodeReader data={QRCodeData} setData={setQRCodeData} onReadQRCode={onReadQRCode} />
             </>
           )}
         </>
