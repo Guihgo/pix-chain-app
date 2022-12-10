@@ -2,13 +2,13 @@ import React from "react";
 import { Title } from "./styles";
 
 type Props = {
-  keyValue: string;
+  validWallet: boolean;
 };
 
-function KeyText({ keyValue }: Props) {
+function KeyText({ validWallet }: Props) {
   return (
     <Title>
-      {keyValue
+      {validWallet
         ? "Você está conectado na sua carteira!"
         : "Insira sua chave privada para acessar sua carteira"}
     </Title>

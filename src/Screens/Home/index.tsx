@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import KeyButton from "../../Components/Button";
 import Input from "../../Components/Input";
 import KeyText from "../../Components/KeyText";
-import { Container, KeyContainer, QRCodeDiv, Text } from "./styles";
+import { KeyContainer, QRCodeDiv, Text } from "./styles";
 import QRCode from "../../Components/QRCode";
 import QRCodeReader from "../../Components/QRCodeReader";
 import OperationButton from "../../Components/OperationButton";
 import { ISignPay, WalletHelper } from "evm-emv-web3";
-import { BinanceSmartChain_Testnet, ECurrencySymbol } from "evm-emv-web3/networks/BinanceSmartChain";
+import {
+  BinanceSmartChain_Testnet,
+  ECurrencySymbol,
+} from "evm-emv-web3/networks/BinanceSmartChain";
 
 function Home() {
   const [keyValue, setKeyValue] = useState<any>();
@@ -17,24 +20,52 @@ function Home() {
   const [QRCodepayer, setQRCodepayer] = useState("");
   const [balance, setbalance] = useState("");
   const [wallet, setWallet] = useState<WalletHelper>();
+  const [loadingMessage, setLoadingMessage] = useState<ReactNode>();
 
-  async function handleOkButton() {
+  function handleOkButton() {
     setWallet(new WalletHelper(BinanceSmartChain_Testnet, keyValue));
   }
 
-  function onReadQRCode() {
-    wallet?.pay(ECurrencySymbol.PIX_COIN, QRCodeData, payValue);
+  async function onReadQRCode() {
+    try {
+      setLoadingMessage(
+        <Text>
+          Aguardando
+          <br />
+          pagamento...
+        </Text>
+      );
+      const result = await wallet?.pay(
+        ECurrencySymbol.PIX_COIN,
+        QRCodeData,
+        payValue
+      );
+      setLoadingMessage(
+        <Text>
+          Pagamento realizado <br />
+          com sucesso <br />
+          {result?.transactionHash}
+        </Text>
+      );
+    } catch (error) {
+      setLoadingMessage(
+        <Text>
+          Erro no pagamento <br /> Tente novamente
+        </Text>
+      );
+    }
   }
 
   setInterval(() => {
-    wallet?.signPay(ECurrencySymbol.PIX_COIN).then((signPay) => setQRCodepayer(signPay.code));
+    wallet
+      ?.signPay(ECurrencySymbol.PIX_COIN)
+      .then((signPay) => setQRCodepayer(signPay.code));
     wallet?.getBalance().then((amount) => setbalance(amount));
   }, 15 * 1000);
 
-
   return (
     <>
-      <KeyText keyValue={keyValue} />
+      <KeyText validWallet={!!wallet} />
       <KeyContainer>
         {" "}
         <div style={{ flex: "4" }}>
@@ -71,7 +102,12 @@ function Home() {
                   setValue={setPayValue}
                 />
               </div>
-              <QRCodeReader data={QRCodeData} setData={setQRCodeData} onReadQRCode={onReadQRCode} />
+              <QRCodeReader
+                data={QRCodeData}
+                setData={setQRCodeData}
+                onReadQRCode={onReadQRCode}
+              />
+              {loadingMessage}
             </>
           )}
         </>
