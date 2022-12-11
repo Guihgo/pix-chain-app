@@ -35,7 +35,10 @@
     "strictFunctionTypes": false,
     "strictNullChecks": false,
     "strictPropertyInitialization": false,
-    "useUnknownInCatchVariables": false
+    "useUnknownInCatchVariables": false,
+  },
+  "rules": {
+    "no-unused-vars": "off"
   },
   "include": [
     "src"
