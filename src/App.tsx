@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 import { ThemeProvider } from "styled-components";
-import { TestColor } from "./Components/teste";
 import themes from "./Global/themes";
 import MobileContainer from "./Components/MobileContainer";
 import Header from "./Components/Header";
-import Home from "./Screens/Home";
 import Router from "./routes";
 
-import { EthereumCode } from "emvqrcode-tools";
 import { WalletHelper } from "evm-emv-web3";
-import { BinanceSmartChain_Testnet, ECurrencySymbol } from "evm-emv-web3/networks/BinanceSmartChain";
+import { BinanceSmartChain_Testnet } from "evm-emv-web3/networks/BinanceSmartChain";
 <link
   href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
   rel="stylesheet"

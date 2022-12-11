@@ -1,4 +1,4 @@
-export default {
+const e = {
   colors: {
     yellow: "#DFAC29",
     dark: "#1E1E1E",
@@ -14,4 +14,5 @@ export default {
     medium: "500",
     bold: "700",
   },
-};
+}
+export default e;

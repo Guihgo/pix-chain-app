@@ -1,6 +1,4 @@
 
-import { WalletHelper } from "evm-emv-web3";
-import { ECurrencySymbol } from "evm-emv-web3/networks/BinanceSmartChain";
 import { QrReader } from "react-qr-reader";
 
 interface Props {

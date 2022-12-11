@@ -6,7 +6,7 @@ import { KeyContainer, QRCodeDiv, Text } from "./styles";
 import QRCode from "../../Components/QRCode";
 import QRCodeReader from "../../Components/QRCodeReader";
 import OperationButton from "../../Components/OperationButton";
-import { ISignPay, WalletHelper } from "evm-emv-web3";
+import { WalletHelper } from "evm-emv-web3";
 import {
   BinanceSmartChain_Testnet,
   ECurrencySymbol,
