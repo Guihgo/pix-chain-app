@@ -29,15 +29,15 @@ function App() {
       console.error("Invalid private key");
     }
   };
-  const unloadWallet = () => {
-    /* unload wallet */
-    setPrivateKey("");
-    setWalletHelper(undefined);
-  }
+  // const unloadWallet = () => {
+  //   /* unload wallet */
+  //   setPrivateKey("");
+  //   setWalletHelper(undefined);
+  // }
 
-  function handleChangePrivateKeyInput(e: any) {
-    // setPrivateKey(e.target.value);
-  }
+  // function handleChangePrivateKeyInput(e: any) {
+  //   // setPrivateKey(e.target.value);
+  // }
 
   useEffect(() => {
     if (!walletHelper) {
