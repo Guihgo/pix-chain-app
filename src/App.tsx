@@ -16,7 +16,7 @@ import { BinanceSmartChain_Testnet } from "evm-emv-web3/networks/BinanceSmartCha
 
 function App() {
   const [walletHelper, setWalletHelper] = useState<WalletHelper>();
-  const [privateKey, setPrivateKey] = useState("80d0aeaa9c8bc52c4b9913fdcad425adb5941b9b543fea8f523e66e1b841972a");
+  const [privateKey] = useState("80d0aeaa9c8bc52c4b9913fdcad425adb5941b9b543fea8f523e66e1b841972a");
   // const [privateKey, setPrivateKey] = useState("2d463c6a6aad40ab89c2a8ad4a25163aca86bc42c22f6deb7552061d73e38c90");
 
   const loadWallet = async () => {
