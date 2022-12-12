@@ -25,7 +25,7 @@ function Home() {
     setWallet(new WalletHelper(BinanceSmartChain_Testnet, keyValue));
   }
 
-  async function onReadQRCode(data: string) {
+  function onReadQRCode(data: string, amount: string) {
     try {
       setLoadingMessage(
         <Text>
@@ -34,24 +34,28 @@ function Home() {
           pagamento...
         </Text>
       );
-      const result = await wallet?.pay(
+      console.log("amount", amount);
+      alert(amount);
+       wallet?.pay(
         ECurrencySymbol.PIX_COIN,
         data,
-        payValue
-      );
-      setLoadingMessage(
-        <Text>
-          Pagamento realizado <br />
-          com sucesso <br />
-          {result?.transactionHash}
-        </Text>
-      );
-      wallet
-        ?.getBalance(wallet.getCurrency(ECurrencySymbol.PIX_COIN))
-        .then((amount) => {
-          setBalance(Number(amount).toFixed(2));
-          console.log(amount);
-        });
+        amount
+      ).then((result)=>{
+        setLoadingMessage(
+          <Text>
+            Pagamento realizado <br />
+            com sucesso <br />
+            {result?.transactionHash}
+          </Text>
+        );
+        wallet
+          ?.getBalance(wallet.getCurrency(ECurrencySymbol.PIX_COIN))
+          .then((amount) => {
+            setBalance(Number(amount).toFixed(2));
+            console.log(amount);
+          });
+      });
+      
     } catch (e) {
       console.log(e);
     }
@@ -107,10 +111,16 @@ function Home() {
               <div style={{ marginTop: "2rem" }}>
                 <Input
                   placeholder="Digite o valor a ser pago"
-                  setValue={setPayValue}
+                  setValue={(v)=>{
+                    let amount = Number(v).toFixed(2);
+                    alert(`amount: ${amount}`)
+                    
+                    setPayValue(amount);
+                    alert(`payValue: ${payValue}`)
+                  }}
                 />
               </div>
-              {payValue && <QRCodeReader onReadQRCode={onReadQRCode} />}
+              {!!payValue && <QRCodeReader onReadQRCode={onReadQRCode} amount={payValue} />}
               <Text>{loadingMessage}</Text>
             </>
           )}
