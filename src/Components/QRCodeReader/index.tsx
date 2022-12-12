@@ -1,20 +1,17 @@
-
 import { QrReader } from "react-qr-reader";
 
 interface Props {
-  data: string;
-  setData: (data: string) => void;
-  onReadQRCode: () => void;
+  onReadQRCode: (data: string) => void;
 }
 
-function QRCodeReader({ setData, onReadQRCode }: Props) {
+function QRCodeReader({ onReadQRCode }: Props) {
   return (
     <>
       <QrReader
         onResult={(result, error) => {
           if (!!result) {
-            setData(result?.getText());
-            onReadQRCode();
+            console.log(result);
+            onReadQRCode(result?.getText());
           }
 
           if (!!error) {

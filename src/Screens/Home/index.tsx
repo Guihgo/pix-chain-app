@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import KeyButton from "../../Components/Button";
 import Input from "../../Components/Input";
 import KeyText from "../../Components/KeyText";
@@ -14,10 +14,9 @@ import {
 
 function Home() {
   const [keyValue, setKeyValue] = useState<any>();
-  const [QRCodeData, setQRCodeData] = useState<any>("data");
   const [operation, setOperation] = useState("pay");
-  const [payValue, setPayValue] = useState("");
-  const [QRCodePayer, setQRCodePayer] = useState("");
+  const [payValue, setPayValue] = useState<any>(1);
+  const [QRCodePayer, setQRCodePayer] = useState<any>();
   const [balance, setBalance] = useState("");
   const [wallet, setWallet] = useState<WalletHelper>();
   const [loadingMessage, setLoadingMessage] = useState<ReactNode>();
@@ -26,7 +25,9 @@ function Home() {
     setWallet(new WalletHelper(BinanceSmartChain_Testnet, keyValue));
   }
 
-  async function onReadQRCode() {
+  async function onReadQRCode(data: string) {
+    console.log(data);
+    console.log(payValue);
     try {
       setLoadingMessage(
         <Text>
@@ -37,8 +38,8 @@ function Home() {
       );
       const result = await wallet?.pay(
         ECurrencySymbol.PIX_COIN,
-        QRCodeData,
-        payValue
+        data,
+        payValue.toString()
       );
       setLoadingMessage(
         <Text>
@@ -48,13 +49,8 @@ function Home() {
         </Text>
       );
       wallet?.getBalance().then((amount) => setBalance(amount));
-    } catch (error) {
-      console.log(error);
-      setLoadingMessage(
-        <Text>
-          Erro no pagamento <br /> Tente novamente
-        </Text>
-      );
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -63,6 +59,7 @@ function Home() {
       ?.signPay(ECurrencySymbol.PIX_COIN)
       .then((signPay) => setQRCodePayer(signPay.code));
     wallet?.getBalance().then((amount) => setBalance(amount));
+    console.log(QRCodePayer);
   }, [wallet]);
 
   return (
@@ -101,14 +98,10 @@ function Home() {
               <div style={{ marginTop: "2rem" }}>
                 <Input
                   placeholder="Digite o valor a ser pago"
-                  setValue={setPayValue}
+                  setValue={() => {}}
                 />
               </div>
-              <QRCodeReader
-                data={QRCodeData}
-                setData={setQRCodeData}
-                onReadQRCode={onReadQRCode}
-              />
+              <QRCodeReader onReadQRCode={onReadQRCode} />
               {loadingMessage}
             </>
           )}
