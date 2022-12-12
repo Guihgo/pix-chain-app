@@ -46,19 +46,30 @@ function Home() {
           {result?.transactionHash}
         </Text>
       );
-      wallet?.getBalance().then((amount) => setBalance(amount));
+      wallet
+        ?.getBalance(wallet.getCurrency(ECurrencySymbol.PIX_COIN))
+        .then((amount) => {
+          setBalance(Number(amount).toFixed(2));
+          console.log(amount);
+        });
     } catch (e) {
       console.log(e);
     }
   }
 
   useEffect(() => {
-    wallet
-      ?.signPay(ECurrencySymbol.PIX_COIN)
-      .then((signPay) => setQRCodePayer(signPay.code));
-    wallet?.getBalance().then((amount) => setBalance(amount));
-    console.log(QRCodePayer);
+    setInterval(() => {
+      wallet
+        ?.signPay(ECurrencySymbol.PIX_COIN)
+        .then((signPay) => setQRCodePayer(signPay.code));
+    }, 5000);
   }, [wallet]);
+
+  useEffect(() => {
+    wallet
+      ?.getBalance(wallet.getCurrency(ECurrencySymbol.PIX_COIN))
+      .then((amount) => setBalance(Number(amount).toFixed(2)));
+  }, [QRCodePayer]);
 
   return (
     <>

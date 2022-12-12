@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import "./App.css";
 
 import { ThemeProvider } from "styled-components";
@@ -7,8 +6,6 @@ import MobileContainer from "./Components/MobileContainer";
 import Header from "./Components/Header";
 import Router from "./routes";
 
-import { WalletHelper } from "evm-emv-web3";
-import { BinanceSmartChain_Testnet } from "evm-emv-web3/networks/BinanceSmartChain";
 <link
   href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
   rel="stylesheet"
