@@ -15,7 +15,7 @@ import {
 function Home() {
   const [keyValue, setKeyValue] = useState<any>();
   const [operation, setOperation] = useState("pay");
-  const [payValue, setPayValue] = useState<any>(1);
+  const [payValue, setPayValue] = useState<string>();
   const [QRCodePayer, setQRCodePayer] = useState<any>();
   const [balance, setBalance] = useState("");
   const [wallet, setWallet] = useState<WalletHelper>();
@@ -26,8 +26,6 @@ function Home() {
   }
 
   async function onReadQRCode(data: string) {
-    console.log(data);
-    console.log(payValue);
     try {
       setLoadingMessage(
         <Text>
@@ -39,7 +37,7 @@ function Home() {
       const result = await wallet?.pay(
         ECurrencySymbol.PIX_COIN,
         data,
-        payValue.toString()
+        payValue
       );
       setLoadingMessage(
         <Text>
@@ -98,11 +96,11 @@ function Home() {
               <div style={{ marginTop: "2rem" }}>
                 <Input
                   placeholder="Digite o valor a ser pago"
-                  setValue={() => {}}
+                  setValue={setPayValue}
                 />
               </div>
-              <QRCodeReader onReadQRCode={onReadQRCode} />
-              {loadingMessage}
+              {payValue && <QRCodeReader onReadQRCode={onReadQRCode} />}
+              <Text>{loadingMessage}</Text>
             </>
           )}
         </>

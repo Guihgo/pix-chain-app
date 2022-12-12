@@ -19,6 +19,7 @@ export const Text = styled.p`
   font-weight: ${({ theme }) => theme.fontWeight.bold};
   color: ${({ theme }) => theme.colors.dark};
   text-align: center;
+  overflow: auto;
 `;
 
 export const QRCodeDiv = styled.div`
