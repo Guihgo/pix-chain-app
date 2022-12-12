@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import KeyButton from "../../Components/Button";
 import Input from "../../Components/Input";
 import KeyText from "../../Components/KeyText";
@@ -17,8 +17,8 @@ function Home() {
   const [QRCodeData, setQRCodeData] = useState<any>("data");
   const [operation, setOperation] = useState("pay");
   const [payValue, setPayValue] = useState("");
-  const [QRCodepayer, setQRCodepayer] = useState("");
-  const [balance, setbalance] = useState("");
+  const [QRCodePayer, setQRCodePayer] = useState("");
+  const [balance, setBalance] = useState("");
   const [wallet, setWallet] = useState<WalletHelper>();
   const [loadingMessage, setLoadingMessage] = useState<ReactNode>();
 
@@ -47,7 +47,9 @@ function Home() {
           {result?.transactionHash}
         </Text>
       );
+      wallet?.getBalance().then((amount) => setBalance(amount));
     } catch (error) {
+      console.log(error);
       setLoadingMessage(
         <Text>
           Erro no pagamento <br /> Tente novamente
@@ -56,12 +58,12 @@ function Home() {
     }
   }
 
-  setInterval(() => {
+  useEffect(() => {
     wallet
       ?.signPay(ECurrencySymbol.PIX_COIN)
-      .then((signPay) => setQRCodepayer(signPay.code));
-    wallet?.getBalance().then((amount) => setbalance(amount));
-  }, 15 * 1000);
+      .then((signPay) => setQRCodePayer(signPay.code));
+    wallet?.getBalance().then((amount) => setBalance(amount));
+  }, [wallet]);
 
   return (
     <>
@@ -92,7 +94,7 @@ function Home() {
           </div>
           {operation === "pay" ? (
             <QRCodeDiv style={{ marginTop: "2rem" }}>
-              <QRCode value={QRCodepayer} />
+              <QRCode value={QRCodePayer} />
             </QRCodeDiv>
           ) : (
             <>
